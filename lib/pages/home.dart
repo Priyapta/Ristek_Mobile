@@ -14,6 +14,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _nameState extends State<HomePage> {
+  int _currectindex = 0;
+  List<Widget> body = const [
+    Icon(Icons.home),
+    Icon(Icons.person),
+  ];
   // reference box
   final _mybox = Hive.box('mybox');
 
@@ -23,7 +28,6 @@ class _nameState extends State<HomePage> {
   final TextEditingController _editstartcontroller = TextEditingController();
   TodoDatabase db = TodoDatabase();
   int indexing = 0;
-  // bool a = db.toDolist[indexing][4];
 
   @override
   void initState() {
@@ -70,12 +74,7 @@ class _nameState extends State<HomePage> {
         db.toDolist[index][3] = dateend;
       }
       db.toDolist[index][4] = clicked;
-      // db.toDolist[index][4] = a;
 
-      // Use text property to get the text from the controller
-
-      // Use text property to get the text from the controller
-      _editcontroller.clear();
       _editdatecontroller.clear();
       _editstartcontroller.clear();
       // Clear both controllers after updating the values
@@ -125,25 +124,48 @@ class _nameState extends State<HomePage> {
         );
       },
     );
+    db.updateDatabase();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currectindex = index;
+    });
+
+    switch (_currectindex) {
+      case 0:
+        Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/profile');
+        break;
+    }
+  }
+
+  // delete task
+  void deleteTask(int index) {
+    setState(() {
+      db.toDolist.removeAt(index);
+      db.updateDatabase();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    int indexing;
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currectindex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
+          BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person))
+        ],
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.deepPurple,
         title: Center(child: Text("TO DO")),
         elevation: 0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/profile');
-            },
-            icon: Icon(Icons.person),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -155,9 +177,7 @@ class _nameState extends State<HomePage> {
                   padding: const EdgeInsets.all(10.0),
                   child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, "/addtask");
                         createNewList();
-                        print(db.toDolist[0][4]);
 
                         // db.toDolist[4] = ["lala", false];
                       },
@@ -172,12 +192,13 @@ class _nameState extends State<HomePage> {
                 return TodoTile(
                   onTap: () {
                     print(db.toDolist[index][4]);
-                    // print(indexing);
+
                     EditTask(index);
                   },
                   taskName: db.toDolist[index][0],
                   taskComplete: db.toDolist[index][1],
                   onChanged: (value) => checkBox(value, index),
+                  deleteFunction: (context) => deleteTask(index),
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/prop/field.dart';
+import 'package:flutter_todolist/prop/ProfileName.dart';
+import 'package:social_media_flutter/social_media_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -61,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ClipOval(
                       child: Image.asset(
                         "lib/assets/img/profile.jpg",
-                        width: 140,
-                        height: 140,
+                        width: 130,
+                        height: 130,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -109,22 +110,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "Date Birth",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepPurple),
-                        )
-                      ],
-                    ),
-                  ),
-                  ProfileName(icon: Icons.date_range, object: "May-01-2005"),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
                           "Social Media",
                           style: TextStyle(
                               fontSize: 18,
@@ -135,8 +120,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   ProfileName(
-                    icon: null,
-                    object: "@priapta",
+                    icon: SocialIconsFlutter.instagram,
+                    object: "priapta",
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),

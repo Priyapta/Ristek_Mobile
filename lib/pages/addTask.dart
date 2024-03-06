@@ -192,7 +192,6 @@ class _DialogBoxState extends State<DialogBox> {
                             text: "Add Task",
                             onPressed: () {
                               widget.onSave();
-                              
                             }),
                       )),
                     ],

@@ -4,14 +4,13 @@ class ProfileName extends StatelessWidget {
   final String object;
   final IconData? icon;
 
-  const ProfileName({Key? key, required this.object, required this.icon})
-      : super(key: key);
+  const ProfileName({super.key, required this.object, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          const EdgeInsets.only(left: 16.0, right: 16.0, top: 3, bottom: 20),
+          const EdgeInsets.only(left: 16.0, right: 16.0, top: 3, bottom: 15),
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -19,7 +18,7 @@ class ProfileName extends StatelessWidget {
             if (icon != null) Icon(icon),
             if (icon != null)
               SizedBox(
-                width: 8,
+                width: 5,
               ),
             Expanded(
                 child: Text(
