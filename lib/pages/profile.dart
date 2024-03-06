@@ -3,7 +3,12 @@ import 'package:flutter_todolist/prop/ProfileName.dart';
 import 'package:social_media_flutter/social_media_flutter.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  final VoidCallback onProfileClose;
+
+  const ProfilePage({
+    super.key,
+    required this.onProfileClose,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -30,12 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
+                      icon: Icon(Icons.arrow_back),
+                      color: Colors.black,
+                      onPressed: widget.onProfileClose),
                 ),
                 Center(
                   child: Text(

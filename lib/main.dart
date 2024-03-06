@@ -23,11 +23,6 @@ class myApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: HomePage(),
       theme: ThemeData(primarySwatch: Colors.purple),
-      initialRoute: "/",
-      routes: {
-        "/home": (context) => HomePage(),
-        "/profile": (context) => ProfilePage(),
-      },
     );
   }
 }

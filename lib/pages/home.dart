@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todolist/data/database.dart';
 import 'package:flutter_todolist/pages/addTask.dart';
 import 'package:flutter_todolist/pages/editpage.dart';
+import 'package:flutter_todolist/pages/profile.dart';
 // import 'package:flutter_todolist/pages/task.dart';
 import 'package:flutter_todolist/prop/todo_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -31,7 +32,6 @@ class _nameState extends State<HomePage> {
 
   @override
   void initState() {
-    // if 1 time creatae defaul data
     indexing = db.toDolist.length;
     if (_mybox.get("TODOLIST") == null) {
       db.createInitalData();
@@ -77,9 +77,8 @@ class _nameState extends State<HomePage> {
 
       _editdatecontroller.clear();
       _editstartcontroller.clear();
-      // Clear both controllers after updating the values
     });
-    // Navigator.pop(context);
+
     Navigator.of(context).pop();
     db.updateDatabase();
   }
@@ -134,12 +133,26 @@ class _nameState extends State<HomePage> {
 
     switch (_currectindex) {
       case 0:
-        Navigator.pushNamed(context, '/home');
+        HomePage();
         break;
       case 1:
-        Navigator.pushNamed(context, '/profile');
+        navigateToProfilePage();
         break;
     }
+  }
+
+  void navigateToProfilePage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProfilePage(
+          onProfileClose: () {
+            _onItemTapped(0); // Navigate to index 0 on BottomNavigationBar
+            Navigator.pop(context); // Close ProfilePage
+          },
+        ),
+      ),
+    );
   }
 
   // delete task
@@ -154,8 +167,12 @@ class _nameState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
         currentIndex: _currectindex,
         onTap: _onItemTapped,
+        backgroundColor: Colors.black87,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.deepPurple,
         items: const [
           BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
           BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person))
@@ -178,8 +195,6 @@ class _nameState extends State<HomePage> {
                   child: ElevatedButton(
                       onPressed: () {
                         createNewList();
-
-                        // db.toDolist[4] = ["lala", false];
                       },
                       child: Text("Add Task")),
                 ),
@@ -191,8 +206,6 @@ class _nameState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return TodoTile(
                   onTap: () {
-                    print(db.toDolist[index][4]);
-
                     EditTask(index);
                   },
                   taskName: db.toDolist[index][0],
